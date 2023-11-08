@@ -52,7 +52,6 @@
 #![feature(ip_in_core)]
 #![feature(hashmap_internals)]
 #![feature(const_hash)]
-#![feature(allocator_api)]
 
 #[cfg(feature = "alloc")]
 extern crate alloc;
