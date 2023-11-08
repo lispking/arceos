@@ -7,7 +7,7 @@ use core::{
     iter::FusedIterator, 
     ops::Index,
 };
-use axhal::random;
+use arceos_api::random;
 
 /// A [hash map] implemented with quadratic probing and SIMD lookup.
 ///
@@ -1278,7 +1278,7 @@ impl RandomState {
         // iteration order allows a form of DOS attack. To counter that we
         // increment one of the seeds on every RandomState creation, giving
         // every corresponding HashMap a different iteration order.
-        let v = random::random();
+        let v = random::ax_random();
         let k0 = v as u64;
         let k1 = (v >> 64) as u64;
         RandomState { k0, k1 }

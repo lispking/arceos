@@ -338,3 +338,11 @@ pub mod io {
         pub type AxPollState;
     }
 }
+
+/// Random utils.
+pub mod random {
+    define_api! {
+        /// Returns the random number.
+        pub fn ax_random() -> u128;
+    }
+}

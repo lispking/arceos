@@ -75,5 +75,3 @@ arceos_api = { path = "../../api/arceos_api" }
 axio = { path = "../../crates/axio" }
 axerrno = { path = "../../crates/axerrno" }
 spinlock = { path = "../../crates/spinlock" }
-axhal = { path = "../../modules/axhal" }
-axalloc = { path = "../../modules/axalloc" }
