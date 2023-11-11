@@ -68,6 +68,9 @@ log-level-info = ["axfeat/log-level-info"]
 log-level-debug = ["axfeat/log-level-debug"]
 log-level-trace = ["axfeat/log-level-trace"]
 
+# Device Tree Blobs
+dtb = ["axfeat/dtb"]
+
 [dependencies]
 hashbrown = "0.14.2"
 axfeat = { path = "../../api/axfeat" }
