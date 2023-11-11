@@ -17,7 +17,7 @@ mod bitmap;
 #[cfg(feature = "bitmap")]
 pub use bitmap::BitmapPageAllocator;
 
-#[cfg(feature = "buddy")]
+// #[cfg(feature = "buddy")]
 mod buddy;
 #[cfg(feature = "buddy")]
 pub use buddy::BuddyByteAllocator;
@@ -31,6 +31,23 @@ pub use slab::SlabByteAllocator;
 mod tlsf;
 #[cfg(feature = "tlsf")]
 pub use tlsf::TlsfByteAllocator;
+
+
+#[cfg(feature = "early")]
+mod early_byte;
+#[cfg(feature = "early")]
+pub use early_byte::EarlyByteAllocator;
+
+#[cfg(feature = "early")]
+mod early_page;
+#[cfg(feature = "early")]
+pub use early_page::EarlyPageAllocator;
+
+#[cfg(feature = "early")]
+mod early;
+#[cfg(feature = "early")]
+pub use early::EarlyAllocator;
+
 
 use core::alloc::Layout;
 use core::ptr::NonNull;

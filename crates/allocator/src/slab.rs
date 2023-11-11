@@ -1,7 +1,6 @@
 //! Slab memory allocation.
 //!
 //! TODO: comments
-
 use super::{AllocError, AllocResult, BaseAllocator, ByteAllocator};
 use core::alloc::Layout;
 use core::ptr::NonNull;
