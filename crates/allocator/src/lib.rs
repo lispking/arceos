@@ -17,7 +17,7 @@ mod bitmap;
 #[cfg(feature = "bitmap")]
 pub use bitmap::BitmapPageAllocator;
 
-// #[cfg(feature = "buddy")]
+#[cfg(feature = "buddy")]
 mod buddy;
 #[cfg(feature = "buddy")]
 pub use buddy::BuddyByteAllocator;
