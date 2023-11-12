@@ -1695,6 +1695,7 @@ dependencies = [
 name = "scheduler"
 version = "0.1.0"
 dependencies = [
+ "axlog",
  "linked_list",
 ]
 

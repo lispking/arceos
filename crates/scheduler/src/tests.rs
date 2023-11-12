@@ -1,3 +1,5 @@
+use core::usize;
+
 macro_rules! def_test_sched {
     ($name: ident, $scheduler: ty, $task: ty) => {
         mod $name {
@@ -79,6 +81,6 @@ macro_rules! def_test_sched {
     };
 }
 
-def_test_sched!(fifo, FifoScheduler::<usize>, FifoTask::<usize>);
+def_test_sched!(fifo, FifoScheduler::<usize, 5>, FifoTask::<usize, 5>);
 def_test_sched!(rr, RRScheduler::<usize, 5>, RRTask::<usize, 5>);
 def_test_sched!(cfs, CFScheduler::<usize>, CFSTask::<usize>);
