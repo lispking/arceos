@@ -53,7 +53,8 @@ impl ImageHeader {
     pub fn load_app(&self, app_start: usize) -> AppHeader {
         let app_size = self.load_app_size(app_start);
         let app_start = app_start  + self.ptr_len;
-        AppHeader::new(app_start, app_size, self.read_bytes(app_start, app_size))
+        let app_content = self.read_bytes(app_start, app_size);
+        AppHeader::new(app_start, app_size, app_content)
     }
 
     #[inline]
