@@ -28,7 +28,7 @@ fn main() {
 
     let mut app_start = PLASH_START + ptr_len;
     (0..app_num).for_each(|i| {
-        let app_header = image_header.load_app(i, app_start);
+        let app_header = image_header.load_app(app_start);
         app_start = app_header.start + app_header.size;
 
         println!("App_{i} start: {:#x} size: {} content: {:?}", app_header.start, app_header.size, app_header.content);
@@ -50,9 +50,9 @@ impl ImageHeader {
     }
 
     #[inline]
-    pub fn load_app(&self, i: usize, app_start: usize) -> AppHeader {
+    pub fn load_app(&self, app_start: usize) -> AppHeader {
         let app_size = self.load_app_size(app_start);
-        let app_start = app_start  + self.ptr_len + i * (self.ptr_len + app_size);
+        let app_start = app_start  + self.ptr_len;
         AppHeader::new(app_start, app_size, self.read_bytes(app_start, app_size))
     }
 
