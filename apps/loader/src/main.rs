@@ -10,7 +10,7 @@ const PLASH_START: usize = 0x22000000;
 // app running aspace
 // SBI(0x80000000) -> App <- Kernel(0x80200000)
 // 0xffff_ffc0_0000_0000
-const RUN_START: usize = 0xffff_ffc0_8010_0000;
+const RUN_START: usize = 0x4010_0000;
 
 const SYS_HELLO: usize = 1;
 const SYS_PUTCHAR: usize = 2;
@@ -50,6 +50,10 @@ struct AppHeader {
 
 #[cfg_attr(feature = "axstd", no_mangle)]
 fn main() {
+    // switch aspace from kernel to app
+    unsafe { init_app_page_table(); }
+    unsafe { switch_app_aspace(); }
+
     let ptr_len = 2;
 
     let image_header = ImageHeader::new(ptr_len);
@@ -71,7 +75,7 @@ fn main() {
         run_code.copy_from_slice(app_header.content);
         println!("run code {:?}; address [{:?}]", run_code, run_code.as_ptr());
 
-        println!("Execute App_{i} ...");
+        // println!("Execute App_{i} ...");
         // execute app
         unsafe { core::arch::asm!("
             la      a0, {abi_entry}
@@ -84,6 +88,33 @@ fn main() {
     });
 
     println!("Load {app_num} app to payload ok!");
+}
+
+//
+// App aspace
+//
+#[link_section = ".data.app_page_table"]
+static mut APP_PT_SV39: [u64; 512] = [0; 512];
+
+unsafe fn init_app_page_table() {
+    // 0x8000_0000..0xc000_0000, VRWX_GAD, 1G block
+    APP_PT_SV39[2] = (0x80000 << 10) | 0xef;
+    // 0xffff_ffc0_8000_0000..0xffff_ffc0_c000_0000, VRWX_GAD, 1G block
+    APP_PT_SV39[0x102] = (0x80000 << 10) | 0xef;
+
+    // 0x0000_0000..0x4000_0000, VRWX_GAD, 1G block
+    APP_PT_SV39[0] = (0x00000 << 10) | 0xef;
+
+    // For App aspace!
+    // 0x4000_0000..0x8000_0000, VRWX_GAD, 1G block
+    APP_PT_SV39[1] = (0x80000 << 10) | 0xef;
+}
+
+unsafe fn switch_app_aspace() {
+    use riscv::register::satp;
+    let page_table_root = APP_PT_SV39.as_ptr() as usize - axconfig::PHYS_VIRT_OFFSET;
+    satp::set(satp::Mode::Sv39, 0, page_table_root >> 12);
+    riscv::asm::sfence_vma_all();
 }
 
 impl ImageHeader {
