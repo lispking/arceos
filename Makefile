@@ -25,7 +25,7 @@
 #     - `GW`: Gateway IPv4 address (default is 10.0.2.2 for QEMU user netdev)
 
 # General options
-ARCH ?= x86_64
+ARCH ?= aarch64
 PLATFORM ?=
 SMP ?= 1
 MODE ?= release
@@ -33,7 +33,7 @@ LOG ?= warn
 V ?=
 
 # App options
-A ?= apps/helloworld
+A ?= apps/loader
 APP ?= $(A)
 FEATURES ?=
 APP_FEATURES ?=
@@ -45,7 +45,7 @@ GRAPHIC ?= n
 BUS ?= mmio
 
 DISK_IMG ?= disk.img
-QEMU_LOG ?= n
+QEMU_LOG ?= y
 NET_DUMP ?= n
 NET_DEV ?= user
 
@@ -103,6 +103,7 @@ else ifeq ($(ARCH), aarch64)
   ACCEL ?= n
   PLATFORM_NAME ?= aarch64-qemu-virt
   TARGET := aarch64-unknown-none-softfloat
+  # TARGET := aarch64-unknown-linux-musl
 else
   $(error "ARCH" must be one of "x86_64", "riscv64", or "aarch64")
 endif

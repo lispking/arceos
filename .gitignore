@@ -6,3 +6,7 @@
 actual.out
 qemu.log
 rusty-tags.vi
+virt.dtb
+virt.dts
+run.log
+payload/
